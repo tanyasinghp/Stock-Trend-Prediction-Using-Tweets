@@ -1,0 +1,9 @@
+data/external/
+data/processed/
+models/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+.venv/
