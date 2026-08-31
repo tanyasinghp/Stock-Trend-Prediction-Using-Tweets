@@ -1,0 +1,13 @@
+# Pinned to the versions these results were generated with.
+pandas==3.0.2
+numpy==2.4.4
+scikit-learn==1.8.0
+statsmodels==0.14.6
+xgboost==3.4.1
+prophet==1.1.7
+nltk==3.10.3
+pyarrow==22.0.0
+joblib==1.5.2
+pyspark==4.2.0
+pytest==8.4.2
+matplotlib==3.10.7

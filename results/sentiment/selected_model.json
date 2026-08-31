@@ -1,0 +1,13 @@
+{
+  "selected_model": "TF-IDF + LogisticRegression",
+  "selection_criterion": "one-standard-error rule on 5-fold CV ROC-AUC (train split only); among models within 1 SE of the best, the least complex is chosen",
+  "top_cv_model": "TF-IDF + LinearSVC (calibrated)",
+  "top_cv_roc_auc": 0.8537,
+  "one_se_threshold": 0.8498,
+  "models_within_1se": [
+    "TF-IDF + LogisticRegression",
+    "TF-IDF + LinearSVC (calibrated)"
+  ],
+  "n_labeled": 5791,
+  "refit_on": "all labeled data"
+}

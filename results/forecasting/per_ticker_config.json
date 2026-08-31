@@ -1,0 +1,58 @@
+{
+  "n_tickers": 10,
+  "selection_rule": "sector-stratified; ranked by TRAIN-window tweet volume; deterministic",
+  "arima_grid": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      2
+    ],
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      2
+    ],
+    [
+      2,
+      0,
+      0
+    ],
+    [
+      2,
+      0,
+      1
+    ],
+    [
+      2,
+      0,
+      2
+    ]
+  ],
+  "arima_order_criterion": "lowest AIC on training returns",
+  "refit_every_n_sessions": 21,
+  "forecast_horizon": 1,
+  "test_window": [
+    "2015-02-18",
+    "2016-04-01"
+  ]
+}

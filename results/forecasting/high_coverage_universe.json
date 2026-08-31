@@ -1,0 +1,18 @@
+{
+  "rule": "train-window coverage_rate >= 0.75 AND total training tweets >= 1000",
+  "measured_on": "sessions <= 2015-02-17",
+  "n_tickers": 11,
+  "tickers": [
+    "AAPL",
+    "AMZN",
+    "BABA",
+    "BAC",
+    "C",
+    "D",
+    "FB",
+    "GOOG",
+    "MSFT",
+    "PCLN",
+    "T"
+  ]
+}

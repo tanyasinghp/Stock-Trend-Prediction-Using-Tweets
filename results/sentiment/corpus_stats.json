@@ -1,0 +1,10 @@
+{
+  "raw_lines_parsed": 119844,
+  "distinct_tweets": 95924,
+  "tweets_assigned": 118600,
+  "pct_rolled_to_later_session": 0.4279803746207404,
+  "ticker_sessions": 23509,
+  "n_tickers": 87,
+  "session_min": "2014-01-02",
+  "session_max": "2016-04-01"
+}

@@ -1,0 +1,9 @@
+{
+  "panel_rows": 48838,
+  "rows_with_target": 48838,
+  "n_tickers": 87,
+  "session_min": "2014-01-02",
+  "session_max": "2016-04-01",
+  "pct_sessions_with_tweets": 0.481366968344322,
+  "median_tweets_per_covered_session": 2.0
+}
