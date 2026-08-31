@@ -176,8 +176,8 @@ whether a marginally better sentiment model exists.
 |---|---|---|---|
 | **Zero baseline** | **0.016240** | **0.011370** | — |
 | Naive persistence | 0.022862 | 0.016374 | 0.4847 |
-| XGBoost (market-only) | 0.016328 | 0.011456 | 0.4927 |
-| XGBoost (market + sentiment) | 0.016307 | 0.011447 | 0.4919 |
+| XGBoost (market-only) | 0.016322 | 0.011451 | 0.4917 |
+| XGBoost (market + sentiment) | 0.016305 | 0.011442 | 0.4912 |
 
 n = 24,621 test observations across 5 expanding-window folds.
 
@@ -202,20 +202,43 @@ delta = sentiment helps.
 
 | Universe | Horizon | Metric | Δ | 95% CI | p | Sig. |
 |---|---|---|---|---|---|---|
-| all (87) | 1d | RMSE | −0.0000220 | [−3.7e−5, −7.2e−6] | 0.004 | yes |
-| all (87) | 1d | dir. acc | −0.00078 | [−0.0048, 0.0029] | 0.676 | no |
-| all (87) | 3d | RMSE | +0.0000070 | [−2.3e−5, 3.9e−5] | 0.623 | no |
-| high-cov (11) | 1d | dir. acc | **−0.0165** | [−0.032, −0.0016] | 0.027 | **yes, hurts** |
-| high-cov (11) | 3d | RMSE | −0.000159 | [−2.9e−4, −3.2e−5] | 0.010 | yes |
+| all (87) | 1d | RMSE | −0.0000170 | [−3.3e−5, −4.3e−7] | 0.045 | marginal |
+| all (87) | 1d | MAE | −0.0000090 | [−1.8e−5, −3.2e−7] | 0.046 | marginal |
+| all (87) | 1d | dir. acc | −0.00045 | [−0.0043, 0.0034] | 0.806 | no |
+| all (87) | 3d | RMSE | +0.0000140 | [−1.1e−5, 3.9e−5] | 0.298 | no |
+| high-cov (11) | 1d | RMSE | −0.0000910 | [−1.8e−4, −7.8e−6] | 0.031 | yes |
+| high-cov (11) | 1d | dir. acc | +0.00355 | [−0.011, 0.018] | 0.633 | no |
+| high-cov (11) | 3d | RMSE | −0.000191 | [−2.9e−4, −9.5e−5] | <0.001 | yes |
 
-The significant 1-day RMSE improvement is **0.13% relative**. With 24,621 paired
-observations, a paired bootstrap resolves effects far below anything tradeable.
-Meanwhile sentiment *reduces* directional accuracy by 1.6 points on the
-high-coverage universe.
+The 1-day RMSE improvement on the full universe is **0.10% relative**, at
+p=0.045 — significant only marginally, with a confidence interval whose upper
+bound is essentially zero. With 24,621 paired observations, a paired bootstrap
+resolves effects far below anything tradeable. Directional accuracy shows no
+effect anywhere.
 
-**Statistically detectable, economically negligible, directionally inconsistent.**
+**Statistically marginal, economically negligible.**
 
 ![ablation](results/figures/04_ablation.png)
+
+### The effect is not stable across runs
+
+This pipeline was executed twice on different platforms. The two runs differ
+only in XGBoost's `tree_method="hist"`, which is not bit-deterministic across
+architectures — every input, fold and hyperparameter is identical.
+
+| | Linux run | macOS run |
+|---|---|---|
+| XGBoost market-only RMSE | 0.016328 | 0.016322 |
+| Ablation p (all, 1d RMSE) | 0.004 | **0.045** |
+| high-cov 1d directional acc | −1.6pp, p=0.027 | **+0.4pp, p=0.633** |
+| Significant robustness subgroups | 6 of 20 | **8 of 20** |
+
+A fifth-decimal difference in RMSE moved the headline p-value by an order of
+magnitude and reversed the sign of a directional-accuracy result that had been
+significant. That is itself the strongest evidence in this project: an effect
+whose statistical significance flips under floating-point noise is not an
+effect worth acting on. The numbers reported throughout are from the macOS run;
+`results/` contains that run's output.
 
 ### Where sentiment does something
 
@@ -344,6 +367,9 @@ python3 src/evaluation/make_figures.py     # all figures
 
 python3 -m pytest tests/ -q                # 22 tests
 
+# Note: xgboost needs OpenMP on macOS -- `brew install libomp`.
+# Prophet does not run under pandas 3.x (see Results); everything else does.
+
 jupyter notebook notebooks/results_analysis.ipynb   # walkthrough of results
 ```
 
@@ -362,6 +388,8 @@ jupyter notebook notebooks/results_analysis.ipynb   # walkthrough of results
   backtest, and no economic-significance claim is made.
 - **Daily granularity only.** Intraday sentiment dynamics are invisible at this
   resolution.
+- **Prophet not evaluated.** See the per-ticker section. The classical-forecasting
+  conclusion rests on ARIMA alone.
 - **Overlapping subgroups.** The robustness tests are not independent, so the
   6-of-20 significance count should not be read as a formal multiple-testing
   result.
